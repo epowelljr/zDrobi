@@ -1,0 +1,8 @@
+name: 'Chat Photo Module'
+type: module
+description: 'Handles photo uploads in chat and integrates with Stripe for payments.'
+core_version_requirement: ^10 || ^11
+dependencies:
+  - drupal:chat
+  - drupal:commerce
+  - drupal:commerce_stripe
