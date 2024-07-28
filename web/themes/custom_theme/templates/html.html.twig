@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html{{ html_attributes }}>
+  <head>
+    {{ head }}
+    <title>{{ head_title }}</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    {{ styles }}
+    {{ scripts }}
+  </head>
+  <body{{ attributes }}>
+    <header role="banner">
+      {{ page.header }}
+    </header>
+    <nav role="navigation">
+      {{ page.navigation }}
+    </nav>
+    <main role="main">
+      {{ page.content }}
+    </main>
+    <footer role="contentinfo">
+      {{ page.footer }}
+    </footer>
+    <div class="sub-footer">
+      {{ page.sub_footer }}
+    </div>
+    {{ page_bottom }}
+  </body>
+</html>
