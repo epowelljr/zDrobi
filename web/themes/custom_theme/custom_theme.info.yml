@@ -1,0 +1,13 @@
+name: 'Custom Theme'
+type: theme
+base theme: false
+description: 'A custom theme for Zdrobi.'
+core_version_requirement: ^10 || ^11
+libraries:
+  - custom_theme/global-styling
+regions:
+  header: 'Header'
+  navigation: 'Navigation'
+  content: 'Content'
+  footer: 'Footer'
+  sub_footer: 'Sub Footer'
