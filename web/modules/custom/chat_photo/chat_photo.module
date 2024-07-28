@@ -1,0 +1,49 @@
+<?php
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\file\Entity\File;
+use Drupal\user\Entity\User;
+
+/**
+ * Implements hook_form_FORM_ID_alter() to add photo upload to chat form.
+ */
+function chat_photo_form_chat_message_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $form['photo'] = [
+    '#type' => 'managed_file',
+    '#title' => t('Upload Photo'),
+    '#upload_location' => 'public://chat_photos/',
+    '#upload_validators' => [
+      'file_validate_extensions' => ['png jpg jpeg'],
+      'file_validate_size' => [25600000], // 25MB
+    ],
+  ];
+
+  // Add a submit handler to check tokens and handle photo upload
+  $form['#submit'][] = 'chat_photo_form_submit';
+}
+
+/**
+ * Custom logic to handle token deduction and photo upload.
+ */
+function chat_photo_form_submit(&$form, FormStateInterface $form_state) {
+  $user = User::load(\Drupal::currentUser()->id());
+  $token_count = $user->get('field_tokens')->value;
+
+  if ($token_count < 1 && !empty($form_state->getValue('photo'))) {
+    \Drupal::messenger()->addError(t('You need to purchase tokens to send more photos.'));
+    $form_state->setRedirect('commerce_cart.page');
+    return;
+  }
+
+  if (!empty($form_state->getValue('photo'))) {
+    $file = File::load($form_state->getValue('photo')[0]);
+    $file->setPermanent();
+    $file->save();
+
+    // Deduct a token if photo is uploaded
+    if ($token_count > 0) {
+      $user->set('field_tokens', $token_count - 1);
+      $user->save();
+    }
+  }
+}
