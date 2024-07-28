@@ -1,0 +1,11 @@
+global-styling:
+  version: 1.x
+  css:
+    theme:
+      css/styles.css: {}
+  js:
+    js/videos.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupalSettings
